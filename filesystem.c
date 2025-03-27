@@ -3,7 +3,7 @@
 void initializeRoot(Directory **root) {
     *root = (Directory*)malloc(sizeof(Directory));
     if (!(*root)) {
-        fprintf(stderr, "Memory allocation failed!\n");
+        fprintf(stderr, "Memory allocation for root directory failed!\n");
         exit(EXIT_FAILURE);
     }
     strcpy((*root)->name, "root");
@@ -11,7 +11,6 @@ void initializeRoot(Directory **root) {
     (*root)->subdirs = NULL;
     (*root)->nextSibling = NULL;
     (*root)->files = NULL;
-
 }
 
 int createDirectory(Directory *parent, const char *name) {
@@ -78,6 +77,33 @@ void listDirectory(const Directory *dir, int depth) {
     }
 }
 
+void searchItem(const Directory *dir, const char *target, char *path) {
+    if (!dir) return;
+    char oldPath[1024];
+    strcpy(oldPath, path);
+    if (strcmp(dir->name, "root") == 0) {
+        sprintf(path, "/%s", dir->name);
+    } else {
+        sprintf(path, "%s/%s", path, dir->name);
+    }
+    if (strcmp(dir->name, target) == 0) {
+        printf("Found directory: %s\n", path);
+    }
+    File *f = dir->files;
+    while (f) {
+        if (strcmp(f->name, target) == 0) {
+            printf("Found file: %s/%s\n", path, f->name);
+        }
+        f = f->next;
+    }
+    Directory *sub = dir->subdirs;
+    while (sub) {
+        searchItem(sub, target, path);
+        sub = sub->nextSibling;
+    }
+    strcpy(path, oldPath);
+}
+
 void freeDirectory(Directory *dir) {
     if (!dir) return;
     Directory *sub = dir->subdirs;
@@ -123,4 +149,10 @@ int fileExists(File *head, const char *name) {
         head = head->next;
     }
     return 0;
+}
+
+void printIndent(int depth) {
+    for (int i = 0; i < depth; i++) {
+        printf("  ");
+    }
 }

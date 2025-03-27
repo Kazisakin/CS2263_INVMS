@@ -30,7 +30,7 @@ int main(void) {
         switch (choice) {
             case 1: {
                 char parentName[NAME_LENGTH], dirName[NAME_LENGTH];
-                printf("Enter the parent directory name (or 'root' for the root directory): ");
+                printf("Enter the name of the parent directory (type 'root' for the root): ");
                 fgets(parentName, NAME_LENGTH, stdin);
                 parentName[strcspn(parentName, "\n")] = '\0';
                 printf("Enter the new directory name: ");
@@ -70,7 +70,6 @@ int main(void) {
                         printf("File '%s' created under '%s'.\n", fileName, parentName);
                     }
                 }
-
                 break;
             }
             case 3: {
@@ -88,6 +87,13 @@ int main(void) {
                 break;
             }
             case 4: {
+                char target[NAME_LENGTH];
+                char path[1024] = "";
+                printf("Enter the item name to search for: ");
+                fgets(target, NAME_LENGTH, stdin);
+                target[strcspn(target, "\n")] = '\0';
+
+                searchItem(root, target, path);
                 break;
             }
             default:

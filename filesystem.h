@@ -29,6 +29,8 @@ int createFile(Directory *parent, const char *name, int size);
 
 void listDirectory(const Directory *dir, int depth);
 
+void searchItem(const Directory *dir, const char *target, char *path);
+
 void freeDirectory(Directory *dir);
 
 Directory* findDirectory(Directory *start, const char *name);
