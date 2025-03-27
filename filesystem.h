@@ -23,4 +23,7 @@ typedef struct Directory {
 
 void initializeRoot(Directory **root);
 
+
+int createDirectory(Directory *parent, const char *name);
+
 #endif
