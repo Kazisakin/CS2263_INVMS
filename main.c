@@ -51,11 +51,20 @@ int main(void) {
                 break;
             }
             case 3: {
+                char dirName[NAME_LENGTH];
+                printf("Enter the directory to list (type 'root' for the root): ");
+                fgets(dirName, NAME_LENGTH, stdin);
+                dirName[strcspn(dirName, "\n")] = '\0';
 
+                Directory *targetDir = findDirectory(root, dirName);
+                if (!targetDir) {
+                    printf("Directory '%s' not found.\n", dirName);
+                } else {
+                    listDirectory(targetDir, 0);
+                }
                 break;
             }
             case 4: {
-
                 break;
             }
             default:

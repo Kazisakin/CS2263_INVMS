@@ -39,6 +39,22 @@ int createDirectory(Directory *parent, const char *name) {
     return 0;
 }
 
+void listDirectory(const Directory *dir, int depth) {
+    if (!dir) return;
+    printIndent(depth);
+    printf("[%s]\n", dir->name);
+    File *f = dir->files;
+    while (f) {
+        printIndent(depth + 1);
+        printf("%s (size=%d)\n", f->name, f->size);
+        f = f->next;
+    }
+    Directory *sub = dir->subdirs;
+    while (sub) {
+        listDirectory(sub, depth + 1);
+        sub = sub->nextSibling;
+    }
+}
 
 void freeDirectory(Directory *dir) {
     if (!dir) return;
