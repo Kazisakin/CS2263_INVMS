@@ -29,7 +29,21 @@ int main(void) {
 
         switch (choice) {
             case 1: {
-
+                char parentName[NAME_LENGTH], dirName[NAME_LENGTH];
+                printf("Enter the parent directory name (or 'root' for the root directory): ");
+                fgets(parentName, NAME_LENGTH, stdin);
+                parentName[strcspn(parentName, "\n")] = '\0';
+                printf("Enter the new directory name: ");
+                fgets(dirName, NAME_LENGTH, stdin);
+                dirName[strcspn(dirName, "\n")] = '\0';
+                Directory *parentDir = findDirectory(root, parentName);
+                if (!parentDir) {
+                    printf("Parent directory '%s' not found.\n", parentName);
+                } else {
+                    if (createDirectory(parentDir, dirName) == 0) {
+                        printf("Directory '%s' created under '%s'.\n", dirName, parentName);
+                    }
+                }
                 break;
             }
             case 2: {

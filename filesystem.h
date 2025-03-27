@@ -23,7 +23,14 @@ typedef struct Directory {
 
 void initializeRoot(Directory **root);
 
-
 int createDirectory(Directory *parent, const char *name);
+
+void freeDirectory(Directory *dir);
+
+Directory* findDirectory(Directory *start, const char *name);
+
+int directoryExists(Directory *start, const char *name);
+
+int fileExists(File *head, const char *name);
 
 #endif

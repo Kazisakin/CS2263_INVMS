@@ -38,3 +38,51 @@ int createDirectory(Directory *parent, const char *name) {
     parent->subdirs = newDir;
     return 0;
 }
+
+
+void freeDirectory(Directory *dir) {
+    if (!dir) return;
+    Directory *sub = dir->subdirs;
+    while (sub) {
+        Directory *nextSub = sub->nextSibling;
+        freeDirectory(sub);
+        sub = nextSub;
+    }
+    File *f = dir->files;
+    while (f) {
+        File *nextFile = f->next;
+        free(f);
+        f = nextFile;
+    }
+    free(dir);
+}
+
+Directory* findDirectory(Directory *start, const char *name) {
+    if (!start) return NULL;
+    if (strcmp(start->name, name) == 0) {
+        return start;
+    }
+    Directory *found = findDirectory(start->subdirs, name);
+    if (found) return found;
+    return findDirectory(start->nextSibling, name);
+}
+
+int directoryExists(Directory *start, const char *name) {
+    while (start) {
+        if (strcmp(start->name, name) == 0) {
+            return 1;
+        }
+        start = start->nextSibling;
+    }
+    return 0;
+}
+
+int fileExists(File *head, const char *name) {
+    while (head) {
+        if (strcmp(head->name, name) == 0) {
+            return 1;
+        }
+        head = head->next;
+    }
+    return 0;
+}
