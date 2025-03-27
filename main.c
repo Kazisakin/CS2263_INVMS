@@ -47,6 +47,29 @@ int main(void) {
                 break;
             }
             case 2: {
+                char parentName[NAME_LENGTH], fileName[NAME_LENGTH];
+                int size = 0;
+
+                printf("Enter the name of the parent directory (type 'root' for the root): ");
+                fgets(parentName, NAME_LENGTH, stdin);
+                parentName[strcspn(parentName, "\n")] = '\0';
+
+                printf("Enter the new file name: ");
+                fgets(fileName, NAME_LENGTH, stdin);
+                fileName[strcspn(fileName, "\n")] = '\0';
+
+                printf("Enter the file size (integer): ");
+                scanf("%d", &size);
+                while (getchar() != '\n');
+
+                Directory *parentDir = findDirectory(root, parentName);
+                if (!parentDir) {
+                    printf("Parent directory '%s' not found.\n", parentName);
+                } else {
+                    if (createFile(parentDir, fileName, size) == 0) {
+                        printf("File '%s' created under '%s'.\n", fileName, parentName);
+                    }
+                }
 
                 break;
             }

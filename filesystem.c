@@ -39,6 +39,28 @@ int createDirectory(Directory *parent, const char *name) {
     return 0;
 }
 
+int createFile(Directory *parent, const char *name, int size) {
+    if (!parent || !name || strlen(name) == 0) {
+        printf("Invalid file creation request.\n");
+        return -1;
+    }
+    if (directoryExists(parent->subdirs, name) || fileExists(parent->files, name)) {
+        printf("Error: An item named '%s' already exists in directory '%s'.\n",
+               name, parent->name);
+        return -1;
+    }
+    File *newFile = (File*)malloc(sizeof(File));
+    if (!newFile) {
+        printf("Memory allocation failed.\n");
+        return -1;
+    }
+    strcpy(newFile->name, name);
+    newFile->size = size;
+    newFile->next = parent->files;
+    parent->files = newFile;
+    return 0;
+}
+
 void listDirectory(const Directory *dir, int depth) {
     if (!dir) return;
     printIndent(depth);

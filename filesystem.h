@@ -25,6 +25,8 @@ void initializeRoot(Directory **root);
 
 int createDirectory(Directory *parent, const char *name);
 
+int createFile(Directory *parent, const char *name, int size);
+
 void listDirectory(const Directory *dir, int depth);
 
 void freeDirectory(Directory *dir);
