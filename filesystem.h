@@ -39,4 +39,6 @@ int directoryExists(Directory *start, const char *name);
 
 int fileExists(File *head, const char *name);
 
+void printIndent(int depth);
+
 #endif
